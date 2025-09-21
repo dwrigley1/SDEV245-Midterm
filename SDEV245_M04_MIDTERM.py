@@ -12,19 +12,21 @@ while len(user_input) < char_minimum:
     if len(user_input) >= char_minimum:
         break
 
+print(f"\nOriginal Message\n{user_input}\n")
+
 hashed_user_input = hashlib.sha256(user_input.encode("utf-8")).hexdigest()
-print(hashed_user_input,"\n")
+print(f"Hashed Message\n{hashed_user_input}\n")
 
 encryption_key = Fernet.generate_key() # method to generate the secret key
-f = Fernet(encryption_key) # assignment creates an object
-f_text = f.encrypt(hashed_user_input.encode("utf-8"))
-print(f_text, "\n")
+fernet = Fernet(encryption_key) # assignment creates an object
+fernet_text = fernet.encrypt(hashed_user_input.encode("utf-8"))
+print(f"Encryption Key\n{fernet_text}\n")
 
-unhashed_user_input = f.decrypt(f_text).decode()
-print(unhashed_user_input, "\n")
+unhashed_user_input = fernet.decrypt(fernet_text).decode()
+print(f"Unhashed Message\n{unhashed_user_input}\n")
 
 # verify encrypted & decrypted values match
 if hashed_user_input == unhashed_user_input:
-    print("Integrity Verified!")
+    print("Content Has Been Decrypted, Hash Comparison Verified Integrity!")
 else:
-    print("Something is wrong...")
+    print("Something Is Wrong...")
